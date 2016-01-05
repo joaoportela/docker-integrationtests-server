@@ -9,7 +9,7 @@ RUN FILE=`mktemp` && curl -s -o$FILE http://packages.erlang-solutions.com/erlang
 COPY rabbitmq-add-repo-keys.sh /tmp/rabbitmq-add-repo-keys.sh
 RUN /tmp/rabbitmq-add-repo-keys.sh
 
-# install erlang and rabbitmq
+# install rabbitmq - which will also install erlang.
 RUN apt-get -yq update && apt-get -yq install \
     rabbitmq-server \
 && apt-get clean \
