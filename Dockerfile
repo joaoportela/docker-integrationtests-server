@@ -24,8 +24,8 @@ RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
 
 # install postgresql
 RUN apt-get -yq update && apt-get --no-install-recommends -yq install \
-        postgresql-9.5 \
-	postgresql-contrib-9.5 \
+        postgresql-9.6 \
+	postgresql-contrib-9.6 \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
