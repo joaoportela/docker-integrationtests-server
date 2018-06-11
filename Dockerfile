@@ -4,14 +4,15 @@ MAINTAINER JP <jportela@abyssal.eu>
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 # also install curl because it is needed to download installation scripts and all that.
-RUN apt-get -yq update && apt-get --no-install-recommends -yq install locales curl \
+# and gnupg for (repositories) keys management.
+RUN apt-get -yq update && apt-get --no-install-recommends -yq install locales curl gnupg \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
 # add erlang repo keys
 RUN FILE=`mktemp` && curl -s -o$FILE https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb \
-	&& dpkg -i $FILE; rm $FILE
+	&& dpkg -i $FILE && rm $FILE
 
 # add rabbitmq repo keys
 RUN curl https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | apt-key add -
@@ -24,9 +25,9 @@ RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
 
 # install postgresql
 RUN apt-get -yq update && apt-get --no-install-recommends -yq install \
-        postgresql-9.6 \	
-	postgresql-9.6-postgis-2.3 \
-	postgresql-contrib-9.6 \
+	postgresql-10 \
+	postgresql-10-postgis-2.4 \
+	postgresql-contrib-10 \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
