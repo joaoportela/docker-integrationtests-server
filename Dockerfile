@@ -24,7 +24,10 @@ RUN apt-get -yq update && apt-get --no-install-recommends -yq install rabbitmq-s
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
 
 # install postgresql
-RUN apt-get -yq update && apt-get --no-install-recommends -yq install \
+# may install tzdata, which needs DEBIAN_FRONTEND and DEBCONF_NONINTERACTIVE_SEEN (see note1)
+RUN apt-get -yq update && \
+	DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
+	apt-get --no-install-recommends -yq install \
 	postgresql-10 \
 	postgresql-10-postgis-2.4 \
 	postgresql-10-postgis-2.4-scripts \
@@ -32,6 +35,9 @@ RUN apt-get -yq update && apt-get --no-install-recommends -yq install \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
+# note1: this may install tzdata as a dependency which has interactive
+# operations for the timezone selection. we must disable it or we cannot
+# build the image (and the default 'Etc/UTC' is the correct timezone).
 
 RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
 
