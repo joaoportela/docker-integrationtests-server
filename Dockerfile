@@ -27,6 +27,7 @@ RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
 RUN apt-get -yq update && apt-get --no-install-recommends -yq install \
 	postgresql-10 \
 	postgresql-10-postgis-2.4 \
+	postgresql-10-postgis-2.4-scripts \
 	postgresql-contrib-10 \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
