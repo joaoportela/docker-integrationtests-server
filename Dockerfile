@@ -10,13 +10,6 @@ RUN apt-get -yq update && apt-get --no-install-recommends -yq install locales cu
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
-# add erlang repo keys
-RUN FILE=`mktemp` && curl -s -o$FILE https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb \
-	&& dpkg -i $FILE && rm $FILE
-
-# add rabbitmq repo keys
-RUN curl https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | apt-key add -
-
 # install rabbitmq - which will also install erlang
 RUN apt-get -yq update && apt-get --no-install-recommends -yq install rabbitmq-server
 
