@@ -25,8 +25,8 @@ RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
 
 # install postgresql
 # may install tzdata, which needs DEBIAN_FRONTEND and DEBCONF_NONINTERACTIVE_SEEN (see note1)
-RUN apt-get -yq update && \
-	DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
+RUN apt-get -yq update \
+&& DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
 	apt-get --no-install-recommends -yq install \
 	postgresql-10 \
 	postgresql-10-postgis-2.4 \
